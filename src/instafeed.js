@@ -11,7 +11,6 @@ Instafeed = class Instafeed {
             sortBy: 'none',
             links: true,
             mock: false,
-            useHttp: false
         };
         // if an object is passed in, override the default options
         if (typeof params === 'object') {
@@ -87,7 +86,7 @@ Instafeed = class Instafeed {
 
     // Data parser (must be a json object)
     parse(response) {
-        var anchor, childNodeCount, childNodeIndex, childNodesArr, e, eMsg, fragment, header, htmlString, httpProtocol, i, image, imageObj, imageString, imageUrl, images, img, imgHeight, imgOrient, imgUrl, imgWidth, instanceName, j, k, len, len1, len2, node, parsedLimit, reverse, sortSettings, targetEl, tmpEl;
+        var anchor, childNodeCount, childNodeIndex, childNodesArr, e, eMsg, fragment, header, htmlString, i, image, imageObj, imageString, imageUrl, images, img, imgHeight, imgOrient, imgUrl, imgWidth, instanceName, j, k, len, len1, len2, node, parsedLimit, reverse, sortSettings, targetEl, tmpEl;
         // throw an error if not an object
         if (typeof response !== 'object') {
             // either throw an error or call the error callback
@@ -202,10 +201,6 @@ Instafeed = class Instafeed {
                     }
                     // use protocol relative image url
                     imageUrl = imageObj.url;
-                    httpProtocol = window.location.protocol.indexOf("http") >= 0;
-                    if (httpProtocol && !this.options.useHttp) {
-                        imageUrl = imageUrl.replace(/https?:\/\//, '//');
-                    }
                     // parse the template
                     imageString = this._makeTemplate(this.options.template, {
                         model: image,
@@ -253,10 +248,6 @@ Instafeed = class Instafeed {
                     }
                     // use protocol relative image url
                     imageUrl = imageObj.url;
-                    httpProtocol = window.location.protocol.indexOf("http") >= 0;
-                    if (httpProtocol && !this.options.useHttp) {
-                        imageUrl = imageUrl.replace(/https?:\/\//, '//');
-                    }
                     img.src = imageUrl;
                     // wrap the image in an anchor tag, unless turned off
                     if (this.options.links === true) {
