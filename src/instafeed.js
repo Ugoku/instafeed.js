@@ -363,11 +363,10 @@ let Instafeed = class Instafeed {
 
     // helper function to generate a unique key
     _genKey() {
-        var S4;
-        S4 = function() {
+        let s4 = function() {
             return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
         };
-        return `${S4()}${S4()}${S4()}${S4()}`;
+        return `${s4()}${s4()}${s4()}${s4()}`;
     }
 
     // helper function to parse a template
