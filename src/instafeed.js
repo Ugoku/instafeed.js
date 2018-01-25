@@ -1,6 +1,4 @@
-var Instafeed;
-
-Instafeed = class Instafeed {
+let Instafeed = class Instafeed {
     constructor(params, context) {
         var option, value;
         // default options
@@ -86,7 +84,9 @@ Instafeed = class Instafeed {
 
     // Data parser (must be a json object)
     parse(response) {
-        var anchor, childNodeCount, childNodeIndex, childNodesArr, e, eMsg, fragment, header, htmlString, i, image, imageObj, imageString, imageUrl, images, img, imgHeight, imgOrient, imgUrl, imgWidth, instanceName, j, k, len, len1, len2, node, parsedLimit, reverse, sortSettings, targetEl, tmpEl;
+        var anchor, childNodeCount, childNodeIndex, childNodesArr, e, eMsg, fragment, header, htmlString, i, image, imageObj, imageString, images, img, imgHeight, imgOrient, imgUrl, imgWidth, instanceName, j, k, len, len1, len2, node, parsedLimit, reverse, sortSettings, targetEl, tmpEl;
+        let imageUrl = '';
+        let imageSrcSet = [];
         // throw an error if not an object
         if (typeof response !== 'object') {
             // either throw an error or call the error callback
@@ -179,13 +179,18 @@ Instafeed = class Instafeed {
                 // create an html string
                 htmlString = '';
                 imageString = '';
-                imgUrl = '';
                 // create a temp dom node that will hold the html
                 tmpEl = document.createElement('div');
                 // loop through the images
                 for (i = 0, len = images.length; i < len; i++) {
                     image = images[i];
                     imageObj = image.images[this.options.resolution];
+                    imageSrcSet = [];
+                    Object.keys(image.images).forEach(function(key) {
+                        let imgObj = image.images[key];
+                        imageSrcSet.push(imgObj.url + ' ' + imgObj.width + 'w');
+                    });
+
                     if (typeof imageObj !== 'object') {
                         eMsg = `No image found for resolution: ${this.options.resolution}.`;
                         throw new Error(eMsg);
@@ -208,6 +213,7 @@ Instafeed = class Instafeed {
                         link: image.link,
                         type: image.type,
                         image: imageUrl,
+                        srcset: imageSrcSet.join(', '),
                         width: imgWidth,
                         height: imgHeight,
                         orientation: imgOrient,
@@ -453,7 +459,6 @@ Instafeed = class Instafeed {
         }
         return filteredImages;
     }
-
 };
 
 (function(root, factory) {
